@@ -7,6 +7,7 @@ from django.contrib import admin
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    end_date = models.DateTimeField('end date', null=True)
 
     @admin.display(
         boolean=True,
@@ -16,6 +17,16 @@ class Question(models.Model):
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
+
+    def is_published(self):
+        now = timezone.now()
+        return now >= self.pub_date
+
+    def can_vote(self):
+        now = timezone.now()
+        if self.is_published() and now < self.end_date:
+            return True
+        return False
 
     def __str__(self):
         return self.question_text

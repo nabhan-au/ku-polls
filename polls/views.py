@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Choice ,Question
 
@@ -43,6 +44,10 @@ def vote(request, question_id):
             'error_message': "You didn't select choice. ",
             })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        if question.can_vote():
+            selected_choice.votes += 1
+            selected_choice.save()
+            return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        else:
+            messages.error(request, 'Document deleted.')
+            return HttpResponseRedirect(reverse('polls:index'))
