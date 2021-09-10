@@ -20,4 +20,16 @@ li a {
 
 #poll-container {
     margin-top: 20px;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+#home-button {
+    margin-top: 2px;
+}
+#search-box {
+    margin-top: 3px;
+    margin-bottom: 3px !important
+}
+#result-button {
+    margin-bottom: 5px;
 }
