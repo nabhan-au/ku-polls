@@ -41,7 +41,7 @@
                         {% endif %}
                     </div>
                     <div class = "col-1">
-                        <button id = "result-button" onclick="location.href='{% url 'polls:results' question.id %}'">Result</button>
+                        <button id = "result-button" class = "btn btn-primary" onclick="location.href='{% url 'polls:results' question.id %}'">Result</button>
                     </div>
                 </div>
             </div>       
