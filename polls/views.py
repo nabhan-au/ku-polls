@@ -51,5 +51,5 @@ def vote(request, question_id):
             selected_choice.save()
             return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
         else:
-            messages.error(request, 'Document deleted.')
+            messages.error(request, 'Vote are not available')
             return HttpResponseRedirect(reverse('polls:index'))
