@@ -22,10 +22,6 @@
                     </li>
                 </ul>
             </div>
-            <form  id = "search-box" class="d-flex">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
         </div>
     </nav>
     <main class = container>
@@ -41,16 +37,22 @@
         {% for question in latest_question_list %}
             <div id = "poll-container" class = "container-fluid">
                 <div class = "row">
-                    <div class = "col-11">
-                        <a id = "question-home" class = "col-9" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                    <div class = "col-10">
+                        <a id = "text-break" class = "col-9" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
                         {% if question.was_published_recently %}
                             <span class="badge bg-secondary">New</span>
                         {% endif %}
                     </div>
-                    <div class = "col-1">
+                    <div class = "col-2">
                         <button id = "result-button" class = "btn btn-primary" onclick="location.href='{% url 'polls:results' question.id %}'">Result</button>
                     </div>
                 </div>
+                {% if question.can_vote %}
+                    <span class="badge bg-success" style="font-size:10px">Open</span>
+                {% else %}
+                    <span class="badge bg-danger" style="font-size:10px">Closed</span>
+                {% endif %}
+                <span style="font-size:13px">End date:  {{ question.end_date }}</span>
             </div>       
         {% endfor %}
         </div>

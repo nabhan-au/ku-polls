@@ -24,17 +24,20 @@
             </div>
         </div>
     </nav>
-    
-    <form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
-    <fieldset class="move-right">
-        <legend><h1>{{ question.question_text }}</h1></legend>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-        {% for choice in question.choice_set.all %}
-            <input type="radio" name="choice" id="choice"{{ forloop.counter }} value="{{ choice.id }}">
-            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-        {% endfor %}
-    </fieldset>
-    <button id = "vote-btn-vote" type="submit" class="btn btn-primary">Vote</button>
-    </form>
+    <main class = "container">
+        <div class = "shadow rounded p-3 m-3">
+            <form action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend><h1 id="text-break" style="border-bottom: 2px solid #D3D3D3;">{{ question.question_text }}</h1></legend>
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                {% for choice in question.choice_set.all %}
+                    <input type="radio" name="choice" id="choice"{{ forloop.counter }} value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                {% endfor %}
+            </fieldset>
+            <button id = "vote-btn-vote" type="submit" class="btn btn-primary">Vote</button>
+            </form>
+        </div>
+    </Main>
 </body>

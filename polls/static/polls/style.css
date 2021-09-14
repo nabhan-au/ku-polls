@@ -29,11 +29,38 @@ li a {
 #result-button {
     margin-top: -10px;
     margin-bottom: 10px;
+    float: right;
 }
 #vote-btn-vote {
-    margin-left: 15%;
-    margin-top: 30px;
+    margin-top: 25px;
+    margin-bottom: -25px;
+    margin-left: -5px;
 }
 #vote-btn-result {
-    margin-left: 15%;
+    margin-left: 15px;
+}
+
+#choice-list {
+    border-right: 2px solid #D3D3D3;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px solid #E9E9E9;
+    word-wrap: break-word;
+}
+
+#vote-list {
+    border-top: 1px solid #E9E9E9;
+}
+
+#text-break {
+    word-wrap: break-word;
+}
+
+#choice-head{
+    border-right: 2px solid #D3D3D3;
+    border-bottom: 2px solid #D3D3D3;
+}
+
+#vote-head{
+    border-bottom: 2px solid #D3D3D3;
 }
