@@ -37,6 +37,57 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_is_published_recently_with_future_question(self):
+        """
+        is_published() returns False for questions whose pub_date is with in
+        the future.
+        """ 
+        time = timezone.now() + datetime.timedelta(days=30)
+        future_question = Question(pub_date=time)
+        self.assertFalse(future_question.is_published())
+
+    def test_is_published_recently_with_closed_question(self):
+        """
+        is_published() returns True for questions that already
+        closed.
+        """ 
+        time = timezone.now() - datetime.timedelta(days=2, seconds=1)
+        closed_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=1))
+        self.assertTrue(closed_question.is_published())
+
+    def test_is_published_recently_with_recent_question(self):
+        """
+        is_published() returns True for questions that still open.
+        """ 
+        time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        recent_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=2))
+        self.assertTrue(recent_question.is_published())
+
+    def test_can_vote_with_future_question(self):
+        """
+        can_vote() returns False for questions whose pub_date is with in
+        the future.
+        """
+        time = timezone.now() + datetime.timedelta(days=1)
+        future_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=1))
+        self.assertFalse(future_question.can_vote())
+
+    def test_can_vote_with_closed_question(self):
+        """
+        can_vote() returns False for questions that already closed.
+        """
+        time = timezone.now() - datetime.timedelta(days=2)
+        closed_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=1))
+        self.assertFalse(closed_question.can_vote())
+
+    def test_can_vote_with_recent_question(self):
+        """
+        can_vote() returns True for questions that still open.
+        """
+        time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        recent_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=2))
+        self.assertTrue(recent_question.can_vote())
+
 
 
 def create_question(question_text, days):
@@ -46,7 +97,7 @@ def create_question(question_text, days):
     in the pub_date, positive for question that have yet to be published).
     """
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
+    return Question.objects.create(question_text=question_text, pub_date=time, end_date=timezone.now() + datetime.timedelta(30))
 
 
 
@@ -106,8 +157,7 @@ class QuestionIndexViewTests(TestCase):
             response.context['latest_question_list'],
             [question2, question1],
         )
-
-
+        
 
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
