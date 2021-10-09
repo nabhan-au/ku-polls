@@ -7,14 +7,13 @@ from django.urls import reverse
 from .models import Question
 
 
-
 class QuestionModelTests(TestCase):
 
     def test_was_published_recently_with_future_question(self):
         """
         was_published_recently() returns False for questions whose pub_date
         is in the future
-        """ 
+        """
         time = timezone.now() + datetime.timedelta(days=30)
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
@@ -41,7 +40,7 @@ class QuestionModelTests(TestCase):
         """
         is_published() returns False for questions whose pub_date is with in
         the future.
-        """ 
+        """
         time = timezone.now() + datetime.timedelta(days=30)
         future_question = Question(pub_date=time)
         self.assertFalse(future_question.is_published())
@@ -50,7 +49,7 @@ class QuestionModelTests(TestCase):
         """
         is_published() returns True for questions that already
         closed.
-        """ 
+        """
         time = timezone.now() - datetime.timedelta(days=2, seconds=1)
         closed_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=1))
         self.assertTrue(closed_question.is_published())
@@ -58,7 +57,7 @@ class QuestionModelTests(TestCase):
     def test_is_published_recently_with_recent_question(self):
         """
         is_published() returns True for questions that still open.
-        """ 
+        """
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         recent_question = Question(pub_date=time, end_date=time + datetime.timedelta(days=2))
         self.assertTrue(recent_question.is_published())
@@ -157,7 +156,7 @@ class QuestionIndexViewTests(TestCase):
             response.context['latest_question_list'],
             [question2, question1],
         )
-        
+
 
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
