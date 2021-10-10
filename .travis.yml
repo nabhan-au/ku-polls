@@ -11,7 +11,9 @@ services:
   - mysql
 
 env:
-  -DJANGO=3.2.6 DB=mysql
+  - DJANGO=3.2.6 DB=mysql
+  - SECRET_KEY='TEST'
+  - DEBUG=TRUE
 # Install dependencies
 install:
   - pip install -q Django==$DJANGO
