@@ -14,7 +14,7 @@ class QuestionAdmin(admin.ModelAdmin):
     """This class contain config for question in admin page."""
 
     fieldsets = [
-        (None,               {'fields': ['question_text']}),
+        (None, {'fields': ['question_text']}),
         ('Date information', {'fields': ['pub_date', 'end_date'],
          'classes': ['collapse']}),
     ]
