@@ -20,7 +20,6 @@ install:
     
 # script to run tests. Script can have many commands, one per line.
 script: 
-  - python manage.py test polls
   - coverage run --source='.' manage.py test polls
 
 after_script:
