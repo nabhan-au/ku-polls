@@ -17,7 +17,12 @@ env:
 install:
   - pip install -q Django==$DJANGO
   - pip install -r requirements.txt
-    
+  
+before_script:
+  - python manage.py migrate
+  - python manage.py makemigrations polls
+  - python manage.py migrate polls
+
 # script to run tests. Script can have many commands, one per line.
 script: 
   - coverage run --source='.' manage.py test polls
