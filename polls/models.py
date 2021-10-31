@@ -1,12 +1,9 @@
 """This file contain model object in poll application."""
 import datetime
-import django
 from django.db import models
-from django.http import request
 from django.utils import timezone
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
 
 
 class Question(models.Model):
@@ -71,8 +68,11 @@ class Choice(models.Model):
 
 
 class Vote(models.Model):
+    """Class contain choice and user that vote that choice"""
+
     user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
+        """Return vote text"""
         return f"Vote by {self.user.username} for {self.choice.choice_text}"
