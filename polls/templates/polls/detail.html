@@ -28,6 +28,11 @@
         <div class = "shadow rounded p-3 m-3">
             <form action="{% url 'polls:vote' question.id %}" method="post">
             {% csrf_token %}
+            {% for vote in request.user.vote_set.all %}
+                {% if vote.choice.question.id == question.id %}
+                    <label>{{ vote.vote_str }}</label><br>
+                {% endif %}
+            {% endfor %}
             <fieldset>
                 <legend><h1 id="text-break" style="border-bottom: 2px solid #D3D3D3;">{{ question.question_text }}</h1></legend>
                 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
