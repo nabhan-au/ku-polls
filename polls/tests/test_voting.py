@@ -47,8 +47,6 @@ class VotingTest(TestCase):
         question = self.create_question(timezone.now(
         ) + datetime.timedelta(days=0), timezone.now() + datetime.timedelta(days=30), 'q1')
         self.c.post(self.login_url, self.user_login_data)
-        self.c.login(
-            username=self.user_login_data['username'], password=self.user_login_data['password'])
         url = reverse('polls:vote', args=[question.id])
         response = self.c.post(url)
         self.assertEqual(200, response.status_code)
