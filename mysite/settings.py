@@ -105,11 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Authentication stategies
 AUTHENTICATION_BACKENDS = [
     # username/password authentication
-   'django.contrib.auth.backends.ModelBackend',  
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
-#redirect to page after login
-LOGIN_REDIRECT_URL = '/polls/' 
+# redirect to page after login
+LOGIN_REDIRECT_URL = '/polls/'
 
 
 # Internationalization

@@ -1,6 +1,6 @@
 """This file contain view of each page."""
 import logging
-import datetime
+from datetime import datetime
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Choice, Question, Vote
 
 logger = logging.getLogger(__name__)
+
 
 class IndexView(generic.ListView):
     """This class contain function and attributes for index page."""
@@ -81,7 +82,9 @@ def vote(request, question_id):
             else:
                 vote[0].choice = selected_choice
                 vote[0].save()
-            logger.info(f'{user.username} voted in question id:{question_id} for choice id:{selected_choice.id} at {datetime.datetime.now()}')
+            logger.info(
+                f'{user.username} voted for question {question_id} for choice {selected_choice.id} at {datetime.now()}'
+            )
             return HttpResponseRedirect(reverse('polls:results',
                                         args=(question.id,)))
         else:
@@ -91,12 +94,13 @@ def vote(request, question_id):
 
 def get_vote_for_user(user, poll_question):
     """Find and return an existing vote for a user on a poll question
-    
+
     Return:
         The user's Vote or None of no vote for this poll_question
     """
     try:
-        votes = Vote.objects.filter(user=user).filter(choice__question=poll_question)
+        votes = Vote.objects.filter(user=user).filter(
+            choice__question=poll_question)
     except:
         votes = None
     return votes

@@ -10,6 +10,7 @@ from django.dispatch import receiver
 
 logger = logging.getLogger(__name__)
 
+
 class Question(models.Model):
     """This class contain model for question."""
 
@@ -63,6 +64,7 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
 
     def votes(self):
+        """Count vote that user vote in each choice."""
         count = Vote.objects.filter(choice=self).count()
         return count
 
@@ -74,10 +76,12 @@ class Choice(models.Model):
 class Vote(models.Model):
     """Class contain choice and user that vote that choice"""
 
-    user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, null=False, blank=False, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
 
     def vote_str(self):
+        """Return string which show choice that user vote."""
         return f"You voted {self.choice.choice_text}"
 
     def __str__(self) -> str:
@@ -86,6 +90,11 @@ class Vote(models.Model):
 
 
 def get_client_ip(request):
+    """Get client ip adress.
+
+    Returns:
+        str: client ip adress
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[-1].strip()
@@ -93,18 +102,35 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
+    """Call after user login and show log info.
+
+    Args:
+        user (User): user model
+    """
     ip = get_client_ip(request)
     logger.info(f"{user} logged in from ip:{ip} at {datetime.datetime.now()}")
 
 
 @receiver(user_logged_out)
 def user_logged_out_callback(sender, request, user, **kwargs):
-    ip = get_client_ip(request) 
+    """Call after user logout and show log info.
+
+    Args:
+        user (User): user model
+    """
+    ip = get_client_ip(request)
     logger.info(f"{user} logged out with ip:{ip} at {datetime.datetime.now()}")
 
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, **kwargs):
-    logger.warning(f'login failed for: {credentials} at {datetime.datetime.now()}')
+    """Call after user login with wrong username and password. And show log warning.
+
+    Args:
+        user (User): user model
+    """
+    logger.warning(
+        f'login failed for: {credentials} at {datetime.datetime.now()}')
