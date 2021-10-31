@@ -1,4 +1,6 @@
 """This file contain view of each page."""
+import logging
+import datetime
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -9,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Choice, Question, Vote
 
+logger = logging.getLogger(__name__)
 
 class IndexView(generic.ListView):
     """This class contain function and attributes for index page."""
@@ -78,6 +81,7 @@ def vote(request, question_id):
             else:
                 vote[0].choice = selected_choice
                 vote[0].save()
+            logger.info(f'{user.username} voted in question id:{question_id} for choice id:{selected_choice.id} at {datetime.datetime.now()}')
             return HttpResponseRedirect(reverse('polls:results',
                                         args=(question.id,)))
         else:

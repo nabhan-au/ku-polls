@@ -1,14 +1,14 @@
 """This file contain model object in poll application."""
 import datetime
+import logging
 from django.db import models
 from django.utils import timezone
 from django.contrib import admin
 from django.contrib.auth.models import User
-import logging
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 from django.dispatch import receiver
 
-
+logger = logging.getLogger(__name__)
 
 class Question(models.Model):
     """This class contain model for question."""
@@ -84,7 +84,6 @@ class Vote(models.Model):
         """Return vote text"""
         return f"Vote by {self.user.username} for {self.choice.choice_text}"
 
-logger = logging.getLogger(__name__)
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -96,16 +95,16 @@ def get_client_ip(request):
 
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
-    logger.info(f"{user} logged in from ")
+    ip = get_client_ip(request)
+    logger.info(f"{user} logged in from ip:{ip} at {datetime.datetime.now()}")
 
 
 @receiver(user_logged_out)
-def user_logged_out_callback(sender, request, user, **kwargs): 
-    logger.info(f"{user} logged out from ")
+def user_logged_out_callback(sender, request, user, **kwargs):
+    ip = get_client_ip(request) 
+    logger.info(f"{user} logged out with ip:{ip} at {datetime.datetime.now()}")
 
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, **kwargs):
-    logger.warning('login failed for: {credentials}'.format(
-        credentials=credentials,
-    ))
+    logger.warning(f'login failed for: {credentials} at {datetime.datetime.now()}')
