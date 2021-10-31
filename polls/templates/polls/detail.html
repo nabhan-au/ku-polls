@@ -30,7 +30,7 @@
             {% csrf_token %}
             {% for vote in request.user.vote_set.all %}
                 {% if vote.choice.question.id == question.id %}
-                    <label for="choice{{ forloop.counter }}">{{ vote }}</label><br>
+                    <label>{{ vote.vote_str }}</label><br>
                 {% endif %}
             {% endfor %}
             <fieldset>
