@@ -1,3 +1,7 @@
 # required packages
-coverage
-python-decouple
+coverage==5.5
+python-decouple==3.5
+Django==3.2.7
+flake8==3.9.2
+flake8-django==1.1.2
+flake8-docstrings==1.6.0
