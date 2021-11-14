@@ -1,14 +1,7 @@
-# ku-polls
+# KU-POLLS
 [![Build Status](https://app.travis-ci.com/nabhan-au/ku-polls.svg?branch=iteration3)](https://app.travis-ci.com/nabhan-au/ku-polls)
 [![codecov](https://codecov.io/gh/nabhan-au/ku-polls/branch/iteration3/graph/badge.svg?token=KSO2HC5D72)](https://codecov.io/gh/nabhan-au/ku-polls)
 
-When you need to run app you should
-```
-python3 manage.py migrate
-python3 manage.py loaddata users polls
-```
-
-# KU-POLL
 
 ### Wiki
 * [Home](https://github.com/nabhan-au/ku-polls/wiki)
